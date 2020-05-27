@@ -11,13 +11,6 @@ export const clearResults = () => {
     elements.searchResultsList.innerHTML = '';
 };
 
-// 'pasta with tomato and spinach'
-// acc: 0 / acc + cur.length = 5 / newTitle = ['pasta]
-// acc: 5 / acc + cur.length = 9 / newTitle = ['pasta', 'with']
-// acc: 9 / acc + cur.length = 15 / newTitle = ['pasta', 'with', 'tomato']
-// acc: 15 / acc + cur.length = 18 / newTitle = ['pasta', 'with', 'tomato']
-// after 17 we don't push into the newTitle array anymore 
-
 const limitRecipeTitle = (title, limit = 17) => {
     const newTitle = [];
     if(title.length > limit) {
