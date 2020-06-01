@@ -27,14 +27,19 @@ const controlSearch = async () => {
         searchView.clearResults();
         renderLoader(elements.searchRes);
         
+        try {
+            // 4. Search for recipes
+            await state.search.getResults();
 
-        // 4. Search for recipes
-        await state.search.getResults();
-
-        // 5. Render results on UI
-        // console.log(state.search.result);
-        clearLoader();
-        searchView.renderResults(state.search.result);
+            // 5. Render results on UI
+            // console.log(state.search.result);
+            clearLoader();
+            searchView.renderResults(state.search.result);
+        } catch(err) {
+            alert(`Something went wrong with the search...`);
+            clearLoader();
+        }
+        
     }
 }
 
@@ -56,25 +61,38 @@ elements.searchResPages.addEventListener('click', e => {
 });
 
 // RECIPE CONTROLLER
-const controlRecipe = () => {
-    // Get id from the url
+const controlRecipe = async() => {
+    // 1. Get ID from the url
     const id = window.location.hash.replace('#', '');
     console.log(id);
 
     if(id) {
-        // Prepare UI for changes
+        // 2. Prepare UI for changes
 
-        // Create new recipe object
+        // 3. Create new recipe object
+        state.recipe = new Recipe(id);
 
-        // Get recipe data
+        try {
+            // 4. Get recipe data
+            await state.recipe.getRecipe();
 
-        // Calculate servings and time
+            // 5. Calculate servings and time
+            state.recipe.calcTime();
+            state.recipe.calcServings();
 
-        // Render recipe
+            // 6. Render the recipe
+            console.log(state.recipe);
+        } catch(err) {
+            console.log(err);
+            alert(`Error processing recipe...`);
+        }
+        
 
     }
 }
-window.addEventListener('hashchange', controlRecipe);
+
+// Adding event listener to 2 events;
+['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
 
 
