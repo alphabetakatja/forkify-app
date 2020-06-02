@@ -64,13 +64,17 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async() => {
     // 1. Get ID from the url
     const id = window.location.hash.replace('#', '');
-    console.log(id);
 
     if(id) {
         // 2. Prepare UI for changes
         // we need to pass the parent to the loader
         recipeView.clearRecipe();
         renderLoader(elements.recipe);
+
+        // Highligh selected search item
+        if (state.search) {
+            searchView.highlightSelected(id);
+        }    
 
         // 3. Create new recipe object
         state.recipe = new Recipe(id);
