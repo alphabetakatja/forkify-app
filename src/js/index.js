@@ -2,6 +2,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { elements, renderLoader, clearLoader } from './views/base';
 
 // Global State of the app and contains:
@@ -47,12 +48,6 @@ elements.searchForm.addEventListener('submit', e => {
     controlSearch();
 });
 
-// TESTING 
-// window.addEventListener('load', e => {
-//     e.preventDefault();
-//     controlSearch();
-// });
-
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline');
     // console.log(btn);
@@ -73,6 +68,9 @@ const controlRecipe = async() => {
 
     if(id) {
         // 2. Prepare UI for changes
+        // we need to pass the parent to the loader
+        recipeView.clearRecipe();
+        renderLoader(elements.recipe);
 
         // 3. Create new recipe object
         state.recipe = new Recipe(id);
@@ -83,7 +81,6 @@ const controlRecipe = async() => {
         try {
             // 4. Get recipe data and parse ingredients
             await state.recipe.getRecipe();
-            console.log('recipe ing' + state.recipe.ingredients);
             state.recipe.parseIngredients();
 
             // 5. Calculate servings and time
@@ -91,10 +88,12 @@ const controlRecipe = async() => {
             state.recipe.calcServings();
 
             // 6. Render the recipe
-            console.log(state.recipe);
+            clearLoader();
+            recipeView.renderRecipe(state.recipe);
         } catch(err) {
             console.log(err);
-            alert(`Error processing recipe...`);
+            alert('Error processing recipe...');
+            clearLoader();
         }
         
 
