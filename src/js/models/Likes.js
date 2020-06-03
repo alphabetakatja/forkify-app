@@ -3,7 +3,7 @@ export default class Likes {
         this.likes = [];
     }
 
-    addLike(id, title, autor, img) {
+    addLike(id, title, author, img) {
         const like = { id, title, author, img};
         this.likes.push(like);
         return like;
@@ -11,12 +11,12 @@ export default class Likes {
 
     deleteLike(id) {
         // To delete the array item we need to find its index based on the id
-        const index = this.likes.findIndex(item => item.id === id);
+        const index = this.likes.findIndex(like => like.id === id);
         this.likes.splice(index, 1);
     } 
 
     isLiked(id) {
-        return this.like.findIndex(el => el.id === id) !== -1;
+        return this.likes.findIndex(el => el.id === id) !== -1;
     }
 
     getNumLikes() {
