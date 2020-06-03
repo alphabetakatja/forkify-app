@@ -165,6 +165,7 @@ const controlLike = () => {
         );
 
         // Toggle the like button
+        likesView.toggleLike(true);
 
         // Add like to the UI list
         console.log(state.likes);
@@ -176,6 +177,8 @@ const controlLike = () => {
         state.likes.deleteLike(currentID);
 
         // Toggle the like button
+        likesView.toggleLike(false);
+
 
         // Add like to the UI list
         console.log(state.likes);

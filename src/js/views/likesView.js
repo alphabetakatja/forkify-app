@@ -1,6 +1,12 @@
 import { elements } from './base';
 
-export const renderLike = like => {
+export const toggleLike = isLiked => {
+
+    const iconString = isLiked ? 'icon-heart' : 'icon-heart-outline';
+    document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconString}`);
+};
+
+export const addLike = like => {
     const markup = `
         <li data-likeid=${like.id}>
             <a class="likes__link" href="#${like.id}">
