@@ -1,8 +1,8 @@
 import { elements } from './base';
 
 export const toggleLike = isLiked => {
-
-    const iconString = isLiked ? 'icon-heart' : 'icon-heart-outline';
+    const iconString = isLiked ? 'icon-heart' : 'icon-heart-outlined';
+    // We are selecting the element where the icon is located
     document.querySelector('.recipe__love use').setAttribute('href', `img/icons.svg#${iconString}`);
 };
 

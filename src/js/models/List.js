@@ -13,7 +13,7 @@ export default class List {
         };
         this.items.push(item);
         return item;
-    }
+    } 
 
     deleteItem(id) {
         // To delete the array item we need to find its index based on the id

@@ -100,7 +100,10 @@ const controlRecipe = async() => {
 
             // 6. Render the recipe
             clearLoader();
-            recipeView.renderRecipe(state.recipe);
+            recipeView.renderRecipe(
+                state.recipe,
+                state.likes.isLiked(id)
+            );
         } catch(err) {
             console.log(err);
             alert('Error processing recipe...');
@@ -150,6 +153,10 @@ elements.shopping.addEventListener('click', e => {
 });
 
 // LIKE CONTROLLER
+
+// TESTING
+state.likes = new Likes();
+
 const controlLike = () => {
     if(!state.likes) state.likes = new Likes();
     const currentID = state.recipe.id;
@@ -169,7 +176,7 @@ const controlLike = () => {
 
         // Add like to the UI list
         console.log(state.likes);
-        likesView.renderLike(newLike);
+        likesView.addLike(newLike);
 
         // User HAS liked current recipe
     } else {
