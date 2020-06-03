@@ -4,6 +4,8 @@ import Recipe from './models/Recipe';
 import List from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
+
 import { elements, renderLoader, clearLoader } from './views/base';
 
 // Global State of the app and contains:
@@ -13,6 +15,7 @@ import { elements, renderLoader, clearLoader } from './views/base';
 // - Liked recipes
 
 const state = {};
+window.state = state;
 
 // SEARCH CONTROLLER
 const controlSearch = async () => {
@@ -108,6 +111,42 @@ const controlRecipe = async() => {
 // Adding event listener to 2 events;
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 
+// LIST CONTROLLER
+const controlList = () => {
+    // 1. Create a new list IF there is none yet
+    if(!state.list) state.list = new List();
+
+    // 2. Add each ingredient to the list and the UI
+    state.recipe.ingredients.forEach(ingredient => {
+        const item = state.list.addItem(ingredient.count, ingredient.unit, ingredient.ingredient);
+        listView.renderItem(item);
+    });
+    
+}
+
+// Handle delete and update list item events
+elements.shopping.addEventListener('click', e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+    // console.log(id);
+
+    // Handle the delete button
+    if(e.target.matches('.shopping__delete, .shopping__delete *')) {
+        // Delete from state
+        state.list.deleteItem(id);
+
+        // Delete from the UI
+        listView.deleteItem(id);
+
+        // Handle the count update
+
+    } else if (e.target.matches('.shopping__count-value')) {
+        const val = parseFloat(e.target.value, 10);
+        if (val > 0) {
+            state.list.updateCount(id, val);
+        } 
+    }
+});
+
 // Adding event listener to the servings buttons - handling recipe button clicks
 elements.recipe.addEventListener('click', e => {
     if (e.target.matches('.btn-decrease, .btn-decrease *')) {
@@ -120,11 +159,11 @@ elements.recipe.addEventListener('click', e => {
         // Increase button is clicked
         state.recipe.updateServings('inc');
         recipeView.updateServingIngredients(state.recipe);
+    } else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')) {
+        controlList();
     }
-    // console.log(state.recipe);
 });
 
-// LIST CONTROLLER
 window.l = new List();
 
 
