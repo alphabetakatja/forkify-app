@@ -11,13 +11,19 @@ export default class List {
             unit,
             ingredient
         };
-
+        this.items.push(item);
+        return item;
     }
 
     deleteItem(id) {
-        // To delete the array item we need to find the index of it
-        const index = this.items.findIndex(el => el.id === id);
-        // Once we have the index we spice the array and remove the item
+        // To delete the array item we need to find its index based on the id
+        const index = this.items.findIndex(item => item.id === id);
+
+        // Once we have the index we splice the array and remove the item
         this.items.splice(index, 1);
     } 
+
+    updateCount(id, newCount) {
+        this.items.find(item => item.id === id).count = newCount;
+    }
 }
